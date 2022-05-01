@@ -1,11 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 // setar um estado para os planetas encontrados após filtros
 
-function Filters() {
+function PlanetsFilters() {
   const { planets } = useContext(PlanetsContext);
-
   console.log(planets);
   return (
     <div>
@@ -14,4 +13,4 @@ function Filters() {
   );
 }
 
-export default Filters;
+export default PlanetsFilters;
