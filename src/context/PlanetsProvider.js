@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import fetchPlanets from '../service/planetsAPI';
-import PlanetContext from './PlanetsContext';
+import PlanetsContext from './PlanetsContext';
 
 function PlanetsProvider({ children }) {
   const [planets, setPlanets] = useState([]);
@@ -22,10 +23,14 @@ function PlanetsProvider({ children }) {
     // incluir filters
   };
 
+  useEffect(() => {
+    getPlanets();
+  }, []);
+
   return (
-    <PlanetContext.Provider value={ contextValue }>
+    <PlanetsContext.Provider value={ contextValue }>
       {children}
-    </PlanetContext.Provider>
+    </PlanetsContext.Provider>
   );
 }
 
