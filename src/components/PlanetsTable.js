@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 function PlanetsTable() {
-  const { planets } = useContext(PlanetsContext);
+  const { filtersResult } = useContext(PlanetsContext);
   const tableHeader = [
     'Name',
     'Rotation Period',
@@ -32,7 +32,7 @@ function PlanetsTable() {
 
       <tbody>
         {
-          planets.map(({
+          filtersResult.map(({
             name, rotation_period: rotationPeriod,
             orbital_period: orbitalPeriod, diameter, climate, gravity,
             terrain, surface_water: surfaceWater, population, films, created, edited, url,

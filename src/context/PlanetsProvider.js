@@ -5,6 +5,7 @@ import PlanetsContext from './PlanetsContext';
 
 function PlanetsProvider({ children }) {
   const [planets, setPlanets] = useState([]);
+  const [filtersResult, setFiltersResult] = useState([]);
   const [loading, setLoading] = useState(false);
   // incluir filters
 
@@ -13,12 +14,16 @@ function PlanetsProvider({ children }) {
     const response = await fetchPlanets();
     const { results } = response;
     setPlanets(results);
+    setFiltersResult(results);
     setLoading(false);
   }
 
   const contextValue = {
     planets,
+    setPlanets,
     getPlanets,
+    filtersResult,
+    setFiltersResult,
     loading,
     // incluir filters
   };
