@@ -54,15 +54,17 @@ function PlanetsFilters() {
     return bools.every((el) => el);
   };
 
-  // const updateTableData = () => {
-  //   const newTableData = filtersResult.filter(tratarDados);
-  //   setFiltersResult(newTableData);
-  // };
+  const updateTableData = () => {
+    const newTableData = filtersResult.filter(tratarDados);
+    setFiltersResult(newTableData);
+  };
 
   useEffect(() => {
+    updateTableData();
     console.log(activeFilters);
     console.log(filtersResult);
-  }, [activeFilters, filtersResult]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeFilters]);
 
   const handleFilterInput = ({ target: { name, value } }) => {
     setFilterByNumericValues({ ...filterByNumericValues, [name]: value });
@@ -118,13 +120,12 @@ function PlanetsFilters() {
           onClick={ () => {
             setActiveFilters([...activeFilters, filterByNumericValues]);
             // updateTableData();
-            const newTableData = filtersResult.filter(tratarDados);
-            setFiltersResult(newTableData);
             setFilterByNumericValues({
               column: '',
               comparison: '',
               value: '',
             });
+            updateTableData();
           } }
         >
           FILTRAR
