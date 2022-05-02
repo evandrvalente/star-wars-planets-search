@@ -4,11 +4,17 @@ import PlanetsContext from '../context/PlanetsContext';
 // setar um estado para os planetas encontrados após filtros
 
 function PlanetsFilters() {
-  const { planets, filtersResult, setFiltersResult } = useContext(PlanetsContext);
+  const {
+    planets,
+    filtersResult,
+    setFiltersResult,
+    filterByName,
+    setFilterByName,
+  } = useContext(PlanetsContext);
   const [activeFilters, setActiveFilters] = useState([]);
-  const [filterByName, setFilterByName] = useState({
-    name: '',
-  });
+  // const [filterByName, setFilterByName] = useState({
+  //   name: '',
+  // });
 
   const [filterByNumericValues, setFilterByNumericValues] = useState({
     column: '',
