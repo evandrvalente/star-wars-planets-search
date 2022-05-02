@@ -10,17 +10,11 @@ function PlanetsFilters() {
     setFiltersResult,
     filterByName,
     setFilterByName,
+    activeFilters,
+    setActiveFilters,
+    filterByNumericValues,
+    setFilterByNumericValues,
   } = useContext(PlanetsContext);
-  const [activeFilters, setActiveFilters] = useState([]);
-  // const [filterByName, setFilterByName] = useState({
-  //   name: '',
-  // });
-
-  const [filterByNumericValues, setFilterByNumericValues] = useState({
-    column: '',
-    comparison: '',
-    value: 0,
-  });
 
   const columnOptions = [
     'population',

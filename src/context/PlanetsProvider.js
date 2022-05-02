@@ -6,6 +6,15 @@ import PlanetsContext from './PlanetsContext';
 function PlanetsProvider({ children }) {
   const [planets, setPlanets] = useState([]);
   const [filtersResult, setFiltersResult] = useState([]);
+  const [filterByName, setFilterByName] = useState({
+    name: '',
+  });
+  const [activeFilters, setActiveFilters] = useState([]);
+  const [filterByNumericValues, setFilterByNumericValues] = useState({
+    column: '',
+    comparison: '',
+    value: 0,
+  });
   const [loading, setLoading] = useState(false);
   // incluir filters
 
@@ -24,6 +33,12 @@ function PlanetsProvider({ children }) {
     getPlanets,
     filtersResult,
     setFiltersResult,
+    filterByName,
+    setFilterByName,
+    activeFilters,
+    setActiveFilters,
+    filterByNumericValues,
+    setFilterByNumericValues,
     loading,
     // incluir filters
   };
