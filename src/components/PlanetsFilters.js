@@ -140,6 +140,7 @@ function PlanetsFilters() {
               cloneArray.splice(index, 1);
               setActiveFilters(cloneArray);
               setFiltersResult(planets);
+              setColumnOptions([...columnOptions, filter.column]);
               updateColumnOptions();
               updateTableData();
             } }
