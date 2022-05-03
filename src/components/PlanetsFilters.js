@@ -1,12 +1,10 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
-
-// setar um estado para os planetas encontrados após filtros
 
 function PlanetsFilters() {
   const {
     planets,
-    filtersResult,
+    // filtersResult,
     setFiltersResult,
     filterByName,
     setFilterByName,
@@ -14,6 +12,7 @@ function PlanetsFilters() {
     setActiveFilters,
     filterByNumericValues,
     setFilterByNumericValues,
+    updateTableData,
   } = useContext(PlanetsContext);
 
   const columnOptions = [
@@ -33,38 +32,31 @@ function PlanetsFilters() {
     filterPlanetName(value);
   };
 
-  const tratarDados = (linha) => {
-    const bools = [];
+  // const tratarDados = (linha) => {
+  //   const bools = [];
 
-    activeFilters.forEach((filter) => {
-      switch (filter.comparison) {
-      case '>':
-        bools.push(Number(linha[filter.column]) >= Number(filter.value));
-        break;
-      case '<':
-        bools.push(Number(linha[filter.column]) <= Number(filter.value));
-        break;
-      case '=':
-        bools.push(linha[filter.column] === filter.value.toUpperCase());
-        break;
-      default:
-        return true;
-      }
-    });
-    return bools.every((el) => el);
-  };
+  //   activeFilters.forEach((filter) => {
+  //     switch (filter.comparison) {
+  //     case '>':
+  //       bools.push(Number(linha[filter.column]) >= Number(filter.value));
+  //       break;
+  //     case '<':
+  //       bools.push(Number(linha[filter.column]) <= Number(filter.value));
+  //       break;
+  //     case '=':
+  //       bools.push(linha[filter.column] === filter.value.toUpperCase());
+  //       break;
+  //     default:
+  //       return true;
+  //     }
+  //   });
+  //   return bools.every((el) => el);
+  // };
 
-  const updateTableData = () => {
-    const newTableData = filtersResult.filter(tratarDados);
-    setFiltersResult(newTableData);
-  };
-
-  useEffect(() => {
-    updateTableData();
-    console.log(activeFilters);
-    console.log(filtersResult);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeFilters]);
+  // const updateTableData = () => {
+  //   const newTableData = planets.filter(tratarDados);
+  //   setFiltersResult(newTableData);
+  // };
 
   const handleFilterInput = ({ target: { name, value } }) => {
     setFilterByNumericValues({ ...filterByNumericValues, [name]: value });
@@ -119,7 +111,6 @@ function PlanetsFilters() {
           data-testid="button-filter"
           onClick={ () => {
             setActiveFilters([...activeFilters, filterByNumericValues]);
-            // updateTableData();
             setFilterByNumericValues({
               column: '',
               comparison: '',
@@ -159,6 +150,8 @@ function PlanetsFilters() {
               const cloneArray = [...activeFilters];
               cloneArray.splice(index, 1);
               setActiveFilters(cloneArray);
+              setFiltersResult(planets);
+              updateTableData();
             } }
           >
             X

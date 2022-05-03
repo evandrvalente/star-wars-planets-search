@@ -16,7 +16,6 @@ function PlanetsProvider({ children }) {
     value: 0,
   });
   const [loading, setLoading] = useState(false);
-  // incluir filters
 
   async function getPlanets() {
     setLoading(true);
@@ -26,6 +25,32 @@ function PlanetsProvider({ children }) {
     setFiltersResult(results);
     setLoading(false);
   }
+
+  const tratarDados = (linha) => {
+    const bools = [];
+
+    activeFilters.forEach((filter) => {
+      switch (filter.comparison) {
+      case '>':
+        bools.push(Number(linha[filter.column]) >= Number(filter.value));
+        break;
+      case '<':
+        bools.push(Number(linha[filter.column]) <= Number(filter.value));
+        break;
+      case '=':
+        bools.push(linha[filter.column] === filter.value.toUpperCase());
+        break;
+      default:
+        return true;
+      }
+    });
+    return bools.every((el) => el);
+  };
+
+  const updateTableData = () => {
+    const newTableData = planets.filter(tratarDados);
+    setFiltersResult(newTableData);
+  };
 
   const contextValue = {
     planets,
@@ -40,12 +65,18 @@ function PlanetsProvider({ children }) {
     filterByNumericValues,
     setFilterByNumericValues,
     loading,
+    updateTableData,
     // incluir filters
   };
 
   useEffect(() => {
     getPlanets();
   }, []);
+
+  useEffect(() => {
+    updateTableData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeFilters]);
 
   return (
     <PlanetsContext.Provider value={ contextValue }>
