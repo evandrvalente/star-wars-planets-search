@@ -12,7 +12,7 @@ function PlanetsProvider({ children }) {
   const [activeFilters, setActiveFilters] = useState([]);
   const [filterByNumericValues, setFilterByNumericValues] = useState({
     column: 'population',
-    comparison: '>',
+    comparison: 'maior que',
     value: 0,
   });
   const [loading, setLoading] = useState(false);
@@ -31,13 +31,13 @@ function PlanetsProvider({ children }) {
 
     activeFilters.forEach((filter) => {
       switch (filter.comparison) {
-      case '>':
+      case 'maior que':
         bools.push(Number(linha[filter.column]) >= Number(filter.value));
         break;
-      case '<':
+      case 'menor que':
         bools.push(Number(linha[filter.column]) <= Number(filter.value));
         break;
-      case '=':
+      case 'igual a':
         bools.push(Number(linha[filter.column]) === Number(filter.value));
         break;
       default:

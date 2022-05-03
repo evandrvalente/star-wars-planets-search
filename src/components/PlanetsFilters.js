@@ -32,32 +32,6 @@ function PlanetsFilters() {
     filterPlanetName(value);
   };
 
-  // const tratarDados = (linha) => {
-  //   const bools = [];
-
-  //   activeFilters.forEach((filter) => {
-  //     switch (filter.comparison) {
-  //     case '>':
-  //       bools.push(Number(linha[filter.column]) >= Number(filter.value));
-  //       break;
-  //     case '<':
-  //       bools.push(Number(linha[filter.column]) <= Number(filter.value));
-  //       break;
-  //     case '=':
-  //       bools.push(linha[filter.column] === filter.value.toUpperCase());
-  //       break;
-  //     default:
-  //       return true;
-  //     }
-  //   });
-  //   return bools.every((el) => el);
-  // };
-
-  // const updateTableData = () => {
-  //   const newTableData = planets.filter(tratarDados);
-  //   setFiltersResult(newTableData);
-  // };
-
   const handleFilterInput = ({ target: { name, value } }) => {
     setFilterByNumericValues({ ...filterByNumericValues, [name]: value });
     console.log(filterByNumericValues);
@@ -73,6 +47,7 @@ function PlanetsFilters() {
           data-testid="name-filter"
           value={ filterByName.name }
           onChange={ handleNameChange }
+          placeholder="busca por nome"
         />
         <select
           data-testid="column-filter"
@@ -95,9 +70,10 @@ function PlanetsFilters() {
           value={ filterByNumericValues.comparison }
           onChange={ handleFilterInput }
         >
-          <option value=">">maior que</option>
-          <option value="<">menor que</option>
-          <option value="=">igual a</option>
+          <option value="">Selecione uma opção</option>
+          <option value="maior que">maior que</option>
+          <option value="menor que">menor que</option>
+          <option value="igual a">igual a</option>
         </select>
         <input
           data-testid="value-filter"
@@ -110,6 +86,11 @@ function PlanetsFilters() {
           type="button"
           data-testid="button-filter"
           onClick={ () => {
+            setFilterByNumericValues({
+              column: filterByNumericValues.column,
+              comparison: filterByNumericValues.comparison,
+              value: filterByNumericValues.value,
+            });
             setActiveFilters([...activeFilters, filterByNumericValues]);
             setFilterByNumericValues({
               column: '',
