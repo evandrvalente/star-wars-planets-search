@@ -1,10 +1,9 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 function PlanetsFilters() {
   const {
     planets,
-    // filtersResult,
     setFiltersResult,
     filterByName,
     setFilterByName,
@@ -14,13 +13,22 @@ function PlanetsFilters() {
     setFilterByNumericValues,
     updateTableData,
   } = useContext(PlanetsContext);
-
-  const columnOptions = [
+  const optionsList = [
     'population',
     'orbital_period',
     'diameter',
     'rotation_period',
     'surface_water'];
+
+  const [columnOptions, setColumnOptions] = useState(optionsList);
+
+  const updateColumnOptions = () => {
+    setFilterByNumericValues({
+      column: columnOptions[0],
+      comparison: 'maior que',
+      value: 0,
+    });
+  };
 
   const filterPlanetName = (value) => {
     const planetsListbyName = planets.filter(({ name }) => name.includes(value));
@@ -34,10 +42,36 @@ function PlanetsFilters() {
 
   const handleFilterInput = ({ target: { name, value } }) => {
     setFilterByNumericValues({ ...filterByNumericValues, [name]: value });
+    console.log(filterByNumericValues);
   };
 
-  const handleOptions = (option) => !activeFilters
-    .find((filtro) => option === filtro.column);
+  const addFilter = () => {
+    setActiveFilters([...activeFilters, filterByNumericValues]);
+    updateTableData();
+    console.log(filterByNumericValues.column);
+    const itemOut = filterByNumericValues.column;
+    const newColumnsOptionsList = columnOptions.filter((item) => item !== itemOut);
+    console.log(newColumnsOptionsList);
+    setColumnOptions(newColumnsOptionsList);
+    console.log(columnOptions);
+    updateColumnOptions();
+  };
+
+  const clearAllFilters = () => {
+    setActiveFilters([]);
+    setFilterByNumericValues({
+      column: '',
+      comparison: '',
+      value: '',
+    });
+    setFiltersResult(planets);
+    setColumnOptions(optionsList);
+  };
+
+  useEffect(() => {
+    updateColumnOptions();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [columnOptions]);
 
   return (
     <div>
@@ -54,7 +88,6 @@ function PlanetsFilters() {
           onChange={ handleFilterInput }
         >
           {columnOptions
-            .filter(handleOptions)
             .map((column) => (
               <option value={ column } key={ column }>
                 {column}
@@ -81,30 +114,14 @@ function PlanetsFilters() {
         <button
           type="button"
           data-testid="button-filter"
-          onClick={ () => {
-            setActiveFilters([...activeFilters, filterByNumericValues]);
-            setFilterByNumericValues({
-              column: '',
-              comparison: '',
-              value: '',
-            });
-            updateTableData();
-          } }
+          onClick={ addFilter }
         >
           FILTRAR
         </button>
         <button
           type="button"
           data-testid="button-remove-filters"
-          onClick={ () => {
-            setActiveFilters([]);
-            setFilterByNumericValues({
-              column: '',
-              comparison: '',
-              value: '',
-            });
-            setFiltersResult(planets);
-          } }
+          onClick={ clearAllFilters }
         >
           LIMPAR FILTROS
         </button>
@@ -123,6 +140,7 @@ function PlanetsFilters() {
               cloneArray.splice(index, 1);
               setActiveFilters(cloneArray);
               setFiltersResult(planets);
+              updateColumnOptions();
               updateTableData();
             } }
           >
@@ -130,7 +148,7 @@ function PlanetsFilters() {
           </button>
           {filter.column}
           {' '}
-          {filter.condition}
+          {filter.comparison}
           {' '}
           {filter.value}
         </div>
