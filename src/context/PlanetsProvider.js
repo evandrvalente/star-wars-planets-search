@@ -32,10 +32,10 @@ function PlanetsProvider({ children }) {
     activeFilters.forEach((filter) => {
       switch (filter.comparison) {
       case 'maior que':
-        bools.push(Number(linha[filter.column]) >= Number(filter.value));
+        bools.push(Number(linha[filter.column]) > Number(filter.value));
         break;
       case 'menor que':
-        bools.push(Number(linha[filter.column]) <= Number(filter.value));
+        bools.push(Number(linha[filter.column]) < Number(filter.value));
         break;
       case 'igual a':
         bools.push(Number(linha[filter.column]) === Number(filter.value));

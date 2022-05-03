@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 function PlanetsFilters() {
@@ -34,7 +34,6 @@ function PlanetsFilters() {
 
   const handleFilterInput = ({ target: { name, value } }) => {
     setFilterByNumericValues({ ...filterByNumericValues, [name]: value });
-    console.log(filterByNumericValues);
   };
 
   const handleOptions = (option) => !activeFilters
@@ -47,7 +46,6 @@ function PlanetsFilters() {
           data-testid="name-filter"
           value={ filterByName.name }
           onChange={ handleNameChange }
-          placeholder="busca por nome"
         />
         <select
           data-testid="column-filter"
@@ -55,7 +53,6 @@ function PlanetsFilters() {
           value={ filterByNumericValues.column }
           onChange={ handleFilterInput }
         >
-          <option value="">Selecione uma opção</option>
           {columnOptions
             .filter(handleOptions)
             .map((column) => (
@@ -70,7 +67,6 @@ function PlanetsFilters() {
           value={ filterByNumericValues.comparison }
           onChange={ handleFilterInput }
         >
-          <option value="">Selecione uma opção</option>
           <option value="maior que">maior que</option>
           <option value="menor que">menor que</option>
           <option value="igual a">igual a</option>
@@ -86,11 +82,6 @@ function PlanetsFilters() {
           type="button"
           data-testid="button-filter"
           onClick={ () => {
-            setFilterByNumericValues({
-              column: filterByNumericValues.column,
-              comparison: filterByNumericValues.comparison,
-              value: filterByNumericValues.value,
-            });
             setActiveFilters([...activeFilters, filterByNumericValues]);
             setFilterByNumericValues({
               column: '',
@@ -139,7 +130,7 @@ function PlanetsFilters() {
           </button>
           {filter.column}
           {' '}
-          {filter.comparison}
+          {filter.condition}
           {' '}
           {filter.value}
         </div>
