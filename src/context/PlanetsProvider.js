@@ -38,7 +38,7 @@ function PlanetsProvider({ children }) {
         bools.push(Number(linha[filter.column]) <= Number(filter.value));
         break;
       case '=':
-        bools.push(linha[filter.column] === filter.value.toUpperCase());
+        bools.push(Number(linha[filter.column]) === Number(filter.value));
         break;
       default:
         return true;

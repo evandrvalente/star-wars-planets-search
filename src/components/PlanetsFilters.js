@@ -60,6 +60,7 @@ function PlanetsFilters() {
 
   const handleFilterInput = ({ target: { name, value } }) => {
     setFilterByNumericValues({ ...filterByNumericValues, [name]: value });
+    console.log(filterByNumericValues);
   };
 
   const handleOptions = (option) => !activeFilters
@@ -157,7 +158,7 @@ function PlanetsFilters() {
           </button>
           {filter.column}
           {' '}
-          {filter.condition}
+          {filter.comparison}
           {' '}
           {filter.value}
         </div>
