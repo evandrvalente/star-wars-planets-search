@@ -11,8 +11,8 @@ function PlanetsProvider({ children }) {
   });
   const [activeFilters, setActiveFilters] = useState([]);
   const [filterByNumericValues, setFilterByNumericValues] = useState({
-    column: '',
-    comparison: '',
+    column: 'population',
+    comparison: '>',
     value: 0,
   });
   const [loading, setLoading] = useState(false);

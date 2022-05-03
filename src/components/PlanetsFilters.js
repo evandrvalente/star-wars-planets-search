@@ -94,10 +94,9 @@ function PlanetsFilters() {
           value={ filterByNumericValues.comparison }
           onChange={ handleFilterInput }
         >
-          <option value="">Selecione uma opção</option>
-          <option value=">">maior que </option>
-          <option value="<">menor que </option>
-          <option value="=">igual a </option>
+          <option value=">">maior que</option>
+          <option value="<">menor que</option>
+          <option value="=">igual a</option>
         </select>
         <input
           data-testid="value-filter"
