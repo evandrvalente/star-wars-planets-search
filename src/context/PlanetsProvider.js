@@ -16,13 +16,21 @@ function PlanetsProvider({ children }) {
     value: 0,
   });
   const [loading, setLoading] = useState(false);
+  const [columnSort, setColumnSort] = useState({
+    order: {
+      column: '',
+      sort: 'ASC',
+    },
+  });
 
   async function getPlanets() {
     setLoading(true);
     const response = await fetchPlanets();
     const { results } = response;
     setPlanets(results);
-    setFiltersResult(results);
+    const firstTable = results.sort((a, b) => a.name.localeCompare(b.name));
+    // método de ordenação sugerido no stackoverflow https://pt.stackoverflow.com/questions/46600/como-ordenar-uma-array-de-objetos-com-array-sort
+    setFiltersResult(firstTable);
     setLoading(false);
   }
 
@@ -47,8 +55,24 @@ function PlanetsProvider({ children }) {
     return bools.every((el) => el);
   };
 
+  const sortTable = (a, b) => {
+    const { order } = columnSort;
+    const { sort, column } = order;
+    let sorted;
+    if (sort === 'ASC') {
+      sorted = Number(a[column]) - Number(b[column]);
+    }
+    if (sort === 'DESC') {
+      sorted = Number(b[column]) - Number(a[column]);
+    }
+    const negativeNumber = -1;
+    if (b[column] === 'unknown') return negativeNumber;
+
+    return sorted;
+  };
+
   const updateTableData = () => {
-    const newTableData = planets.filter(tratarDados);
+    const newTableData = planets.filter(tratarDados).sort(sortTable);
     setFiltersResult(newTableData);
   };
 
@@ -66,7 +90,8 @@ function PlanetsProvider({ children }) {
     setFilterByNumericValues,
     loading,
     updateTableData,
-    // incluir filters
+    columnSort,
+    setColumnSort,
   };
 
   useEffect(() => {
@@ -74,9 +99,11 @@ function PlanetsProvider({ children }) {
   }, []);
 
   useEffect(() => {
+    const { order } = columnSort;
     updateTableData();
+    console.log(order);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeFilters]);
+  }, [activeFilters, columnSort]);
 
   return (
     <PlanetsContext.Provider value={ contextValue }>

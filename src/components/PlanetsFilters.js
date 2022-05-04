@@ -12,7 +12,15 @@ function PlanetsFilters() {
     filterByNumericValues,
     setFilterByNumericValues,
     updateTableData,
+    columnSort,
+    setColumnSort,
   } = useContext(PlanetsContext);
+
+  const [newOrder, setNewOrder] = useState({
+    column: 'population',
+    sort: 'ASC',
+  });
+
   const optionsList = [
     'population',
     'orbital_period',
@@ -45,6 +53,12 @@ function PlanetsFilters() {
     console.log(filterByNumericValues);
   };
 
+  const sortByColumns = () => {
+    setColumnSort({ order: newOrder });
+    updateTableData();
+    console.log(columnSort);
+  };
+
   const addFilter = () => {
     setActiveFilters([...activeFilters, filterByNumericValues]);
     updateTableData();
@@ -75,85 +89,142 @@ function PlanetsFilters() {
 
   return (
     <div>
-      <form>
+      <div className="filter-by-name">
         <input
           data-testid="name-filter"
           value={ filterByName.name }
           onChange={ handleNameChange }
         />
-        <select
-          data-testid="column-filter"
-          name="column"
-          value={ filterByNumericValues.column }
-          onChange={ handleFilterInput }
-        >
-          {columnOptions
-            .map((column) => (
-              <option value={ column } key={ column }>
-                {column}
-              </option>
-            ))}
-        </select>
-        <select
-          data-testid="comparison-filter"
-          name="comparison"
-          value={ filterByNumericValues.comparison }
-          onChange={ handleFilterInput }
-        >
-          <option value="maior que">maior que</option>
-          <option value="menor que">menor que</option>
-          <option value="igual a">igual a</option>
-        </select>
-        <input
-          data-testid="value-filter"
-          type="number"
-          name="value"
-          value={ filterByNumericValues.value }
-          onChange={ handleFilterInput }
-        />
-        <button
-          type="button"
-          data-testid="button-filter"
-          onClick={ addFilter }
-        >
-          FILTRAR
-        </button>
-        <button
-          type="button"
-          data-testid="button-remove-filters"
-          onClick={ clearAllFilters }
-        >
-          LIMPAR FILTROS
-        </button>
-      </form>
-      {activeFilters.map((filter, index) => (
-        <div
-          className="filters"
-          data-testid="filter"
-          key={ index }
-        >
+      </div>
+      <div className="filter-by-planet-data">
+        <form>
+          <select
+            data-testid="column-filter"
+            name="column"
+            value={ filterByNumericValues.column }
+            onChange={ handleFilterInput }
+          >
+            {columnOptions
+              .map((column) => (
+                <option value={ column } key={ column }>
+                  {column}
+                </option>
+              ))}
+          </select>
+          <select
+            data-testid="comparison-filter"
+            name="comparison"
+            value={ filterByNumericValues.comparison }
+            onChange={ handleFilterInput }
+          >
+            <option value="maior que">maior que</option>
+            <option value="menor que">menor que</option>
+            <option value="igual a">igual a</option>
+          </select>
+          <input
+            data-testid="value-filter"
+            type="number"
+            name="value"
+            value={ filterByNumericValues.value }
+            onChange={ handleFilterInput }
+          />
           <button
             type="button"
-            className="limpar"
-            onClick={ () => {
-              const cloneArray = [...activeFilters];
-              cloneArray.splice(index, 1);
-              setActiveFilters(cloneArray);
-              setFiltersResult(planets);
-              setColumnOptions([...columnOptions, filter.column]);
-              updateColumnOptions();
-              updateTableData();
-            } }
+            data-testid="button-filter"
+            onClick={ addFilter }
           >
-            X
+            FILTRAR
           </button>
-          {filter.column}
-          {' '}
-          {filter.comparison}
-          {' '}
-          {filter.value}
-        </div>
-      ))}
+          <button
+            type="button"
+            data-testid="button-remove-filters"
+            onClick={ clearAllFilters }
+          >
+            LIMPAR FILTROS
+          </button>
+        </form>
+      </div>
+      <div className="active-filters">
+        {activeFilters.map((filter, index) => (
+          <div
+            className="filters"
+            data-testid="filter"
+            key={ index }
+          >
+            <button
+              type="button"
+              className="limpar"
+              onClick={ () => {
+                const cloneArray = [...activeFilters];
+                cloneArray.splice(index, 1);
+                setActiveFilters(cloneArray);
+                setFiltersResult(planets);
+                setColumnOptions([...columnOptions, filter.column]);
+                updateColumnOptions();
+                updateTableData();
+              } }
+            >
+              X
+            </button>
+            {filter.column}
+            {' '}
+            {filter.comparison}
+            {' '}
+            {filter.value}
+          </div>
+        ))}
+      </div>
+      <div className="sorting-filters">
+        <select
+          name="column"
+          data-testid="column-sort"
+          onChange={
+            ({ target: { value } }) => setNewOrder({
+              ...newOrder, column: value })
+          }
+          value={ newOrder.column }
+        >
+          {columnOptions.map((item) => (
+            <option key={ item }>{item}</option>
+          ))}
+        </select>
+        <label htmlFor="sort-radio-1">
+          <input
+            data-testid="column-sort-input-asc"
+            defaultChecked
+            id="sort-radio-1"
+            name="sort"
+            onChange={
+              ({ target: { value } }) => setNewOrder({
+                ...newOrder, sort: value })
+            }
+            type="radio"
+            value="ASC"
+          />
+          Ascendente
+        </label>
+        <label htmlFor="sort-radio-2">
+          <input
+            data-testid="column-sort-input-desc"
+            id="sort-radio-2"
+            name="sort"
+            onChange={
+              ({ target: { value } }) => setNewOrder({
+                ...newOrder, sort: value })
+            }
+            type="radio"
+            value="DESC"
+          />
+          Descendente
+        </label>
+        <button
+          type="button"
+          data-testid="column-sort-button"
+          onClick={ sortByColumns }
+        >
+          Ordenar
+        </button>
+      </div>
     </div>
   );
 }
