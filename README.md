@@ -1,16 +1,40 @@
-# 🚧 README em construção 🚧
+# Boas vindas ao repositório do projeto Star Wars Planets Search!
 
-<!-- Olá, Tryber!
+## Objetivo
+Criar uma página que consome uma API externa (não desenvolvida por mim) e exibe uma lista com filtros de planetas do universo de Star Wars usando **Context API e Hooks** para controlar os estados globais.
 
-Esse é apenas um arquivo inicial para o README do seu projeto.
 
-É essencial que você preencha esse documento por conta própria, ok?
+## Técnologias usadas
 
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
+Front-end:
+> Desenvolvido usando: React, CSS3, HTML5, ES6
 
-⚠️ IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
 
--->
+## Instalando Dependências
+
+* Front-end:
+
+```bash
+cd src/
+npm install
+``` 
+
+## Executando aplicação
+
+* Para rodar o front-end:
+
+  ```
+    cd src/ && npm start
+  ```
+  
+---
+
+## Habilidades
+Neste projeto, apliquei aprendizados básicos em React como:
+
+* Utilizar a _Context API_ do **React** para gerenciar estado.
+* Utilizar o _React Hook useState_;
+* Utilizar o _React Hook useContext_;
+* Utilizar o _React Hook useEffect_;
+* Criar _React Hooks_ customizados.
+
