@@ -30,7 +30,7 @@ npm install
 ---
 
 ## Habilidades
-Neste projeto, apliquei aprendizados básicos em React como:
+Neste projeto, apliquei aprendizados em React como:
 
 * Utilizar a _Context API_ do **React** para gerenciar estado.
 * Utilizar o _React Hook useState_;
